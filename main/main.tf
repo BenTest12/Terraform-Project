@@ -253,19 +253,20 @@ resource "azurerm_postgresql_flexible_server_configuration" "db-config-no-ssl" {
   value     = "off"
 }
 
-#Loocking the tfstate in order to upload it
+# Loocking the tfstate in order to upload it
 terraform {
   backend "azurerm" {
-    resource_group_name  = "sela-weight-app"
-    storage_account_name = "ben121212storage"
-    container_name       = "content"
-    key                  = ".terraform/terraform.tfstate"
+    resource_group_name  = "blob_storage"
+    storage_account_name = "ben1212storage"
+    container_name       = "blobs"
+    key                  = "terraform.tfstate"
   }
 }
 
-# Creating blob and uploading my tfstate
-module "store_to_blob" {
-  source                  = "../modules/blob"
-  resource_group_name     = azurerm_resource_group.weight_app_project.name
-  resource_group_location = azurerm_resource_group.weight_app_project.location
+resource "azurerm_storage_blob" "blob_storage_name" {
+  name                   = "blob_storage"
+  storage_account_name   = "ben1212storage"
+  storage_container_name = "blobs"
+  type                   = "Block"
+  source                 = ".terraform/terraform.tfstate"
 }
