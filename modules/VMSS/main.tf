@@ -54,9 +54,9 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
   profile {
     name = "AutoScale"
     capacity {
-      default = 2
+      default = 3
       maximum = 5
-      minimum = 2
+      minimum = 3
     }
 
     rule {
